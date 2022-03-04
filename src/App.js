@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import './App.css';
+import axios from "axios";
 import SearchIcon from './search.svg'
 import MovieCard from "./MovieCard";
 
@@ -8,11 +9,11 @@ const App = () =>{
     const [movies, setMovies] = useState([]);
     const [searchTerm, setSearchTerm] = useState([]);
     const searchMovies = async (title) => {
-        const response = await fetch(`${API_URL}&s=${title}`);
-        const data = await response.json(); // Fetching data from API
-
-        console.log(data);
-        setMovies(data.Search); // Setting the data to the movies state
+        axios.get(`${API_URL}&s=${title}`)
+        .then((response) =>{
+            const data = response.data;
+            setMovies(data.Search);
+        })
     }
     useEffect (() =>{
         searchMovies('batman');
